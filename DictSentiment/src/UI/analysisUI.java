@@ -16,14 +16,14 @@ public class analysisUI extends JFrame{
 	 */
 	private static final long serialVersionUID = 1L;
 	private JButton confrombutton = new JButton("analysis");
-	private final JLabel lbAnalysis = new JLabel("语料：");
-	private final JLabel lbCode = new JLabel("语料格式：");
-	private final JLabel lbFC = new JLabel("分词：");
-	private final JLabel lbSentiment = new JLabel("情感：");
-	private JTextField jtAnalysis = new JTextField("保存路径");
-	private JTextField jtFC    = new JTextField("保存路径");
-	private JTextField jtSentiment  = new JTextField("保存路径");
-	private JTextField jtCode  = new JTextField("文件格式（UTF8/GB2312）");
+	private final JLabel lbAnalysis = new JLabel("原始语料");
+	private final JLabel lbCode = new JLabel("编码格式");
+	private final JLabel lbFC = new JLabel("分词路径");
+	private final JLabel lbSentiment = new JLabel("标签路径");
+	private JTextField jtAnalysis = new JTextField("原始文件路径");
+	private JTextField jtFC    = new JTextField("保存分词的路径");
+	private JTextField jtSentiment  = new JTextField("保存情感的路径");
+	private JTextField jtCode  = new JTextField("UTF8/GB2312");
 	BackgroundPanel bgp;
 	java.net.URL imgURL = analysisUI.class.getResource("robotImage.jpg");
 
@@ -35,12 +35,12 @@ public class analysisUI extends JFrame{
 			e.printStackTrace();
 		}
 	}
-//	设置背景图片
+
 	public void drawBack(){
 		Container ct=this.getContentPane();
 		getContentPane().setLayout(null);
 		
-		//在这里照片可以看到测试结果。	
+			
 		ImageIcon image1 = new ImageIcon(imgURL);
 		bgp=new BackgroundPanel(image1.getImage());
 		bgp.setBounds(0,0,530,288);
@@ -51,7 +51,7 @@ public class analysisUI extends JFrame{
 	public void init() {
 		Container cop = this.getContentPane();
 		cop.setLayout(null);
-//	设置位置边框	
+	
 		lbAnalysis.setBounds(100, 33, 51, 20);
 		cop.add(lbAnalysis);			
 		lbCode.setBounds(100, 63, 78, 20);
@@ -71,7 +71,7 @@ public class analysisUI extends JFrame{
 		cop.add(jtSentiment);
 
 
-//		设置analysis按钮
+
 		confrombutton.addActionListener(new ActionListener() {
 			
 			@Override
@@ -83,16 +83,15 @@ public class analysisUI extends JFrame{
 					String sentiment = jtSentiment.getText();
 					File analysisFile = new File(analysis);
 					if (analysisFile.exists()&&(code.equals("UTF8")||code.equals("GB2312"))) {
-						//开始分词，输入想分词的文件以及要保存的文件
-						JOptionPane.showMessageDialog(null, "开始分析！=.=");
+						JOptionPane.showMessageDialog(null, "确定分析？=.=");
 						fengCi jd = new fengCi(analysis,FC,code);
 						jd.getFengci();
-						//开始sentiment
+
 						sentiment a = new sentiment();
 						a.readDoc(FC,sentiment);
-						
+						JOptionPane.showMessageDialog(null, "分析完成！^.^");
 					}else{
-						JOptionPane.showMessageDialog(null, "请确定输入正确！=.=");
+						JOptionPane.showMessageDialog(null, "确定分析？=.=");
 					}
 					
 				} catch (Exception e2) {
@@ -105,7 +104,7 @@ public class analysisUI extends JFrame{
 		
 		confrombutton.setBounds(171, 217, 100, 34);
 		cop.add(confrombutton);
-		//添加背景图片
+	
 		drawBack();
 	}
 

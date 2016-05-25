@@ -3,7 +3,6 @@ package dicSentiment;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -14,32 +13,13 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import fengCi.fengCi;
 
 public class sentiment {
 	Set<String> posWordSet,negWordSet,negVodSet,vod1Set,vod2Set,vod3Set,vod4Set,vod5Set,vod6Set;
 	StringBuffer sensTxt;
-	float tolSens = 0;//¸÷¸ö¼«ÐÔ¶ÌÓïµÄÇ¿¶È
-	float docSens = 0;//¾ä×ÓÆ½¾ùµÄÇ¿¶È,
+	float tolSens = 0;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½Ç¿ï¿½ï¿½
+	float docSens = 0;//ï¿½ï¿½ï¿½ï¿½Æ½ï¿½ï¿½ï¿½ï¿½Ç¿ï¿½ï¿½,
 	
-	public static void  main(String[] args) throws Exception {
-//		/* ²âÊÔËù¹¹ÔìµÄÄ£ÐÍ×¼È·¶È£¬´ïµ½72.5%
-//		sentiment a = new sentiment();
-//		//¿ªÊ¼Çé¸Ð·ÖÎö
-//		a.readDoc("./DATA/test/docFC.txt","./DATA/test/docPrediction.txt");
-//		//²âÊÔ×¼È·ÂÊ
-//		a.accuracy("./DATA/test/docPrediction.txt","./DATA/test/sen.txt");
-//		*/
-
-//		/*·ÖÎöÅÀ³æ×¥È¡µ½µÄ¾©¶«ÆÀÂÛ
-		//¿ªÊ¼·Ö´Ê£¬ÊäÈëÏë·Ö´ÊµÄÎÄ¼þÒÔ¼°Òª±£´æµÄÎÄ¼þ
-		fengCi jd = new fengCi("./DATA/jdHuaweiP8Comment.txt", "./DATA/jdHuaweiP8FC.txt","UTF8");
-		jd.getFengci();
-		//¿ªÊ¼sentiment
-		sentiment a = new sentiment();
-		a.readDoc("./DATA/jdHuaweiP8FC.txt","./DATA/JDPrediction.txt");
-//		*/
-	}
 	
 	public void readDoc(String path,String senPath) throws IOException{
 		File doc = new File(path);
@@ -48,7 +28,7 @@ public class sentiment {
 		dic();
 		StringBuffer readParse, ParseSen;
 
-		BufferedReader docBf = new BufferedReader(new InputStreamReader(new FileInputStream(doc), "gb2312"));
+		BufferedReader docBf = new BufferedReader(new InputStreamReader(new FileInputStream(doc), "utf8"));
 		
 	
 		while ((sigleDoc = docBf.readLine())!= null) {
@@ -60,7 +40,7 @@ public class sentiment {
 			stringList = sigleDoc.split(" ");
 			for (int i = 0; i < stringList.length; i++) {
 				
-				System.out.print(stringList[i]+" ");
+//				System.out.print(stringList[i]+" ");
 				
 				if(posWordSet.contains(stringList[i])||negWordSet.contains(stringList[i])||negVodSet.contains(stringList[i])
 						||vod1Set.contains(stringList[i])||vod2Set.contains(stringList[i])||vod3Set.contains(stringList[i])
@@ -73,28 +53,42 @@ public class sentiment {
 						ParseSen.append("<");
 					}
 					
-					if (negVodSet.contains(stringList[i])){ System.out.print("NA");readParse.append("NA"); ParseSen.append("-0.8,"); }	
-					if (vod1Set.contains(stringList[i])) {	System.out.print("DA");readParse.append("DA"); ParseSen.append("0.9,"); }
-					if (vod2Set.contains(stringList[i])) {  System.out.print("DA");readParse.append("DA"); ParseSen.append("0.9,");	}	
-					if (vod3Set.contains(stringList[i])) {	System.out.print("DA");readParse.append("DA"); ParseSen.append("0.7,");}
-					if (vod4Set.contains(stringList[i])) {	System.out.print("DA");readParse.append("DA"); ParseSen.append("0.5,");}
-					if (vod5Set.contains(stringList[i])) {	System.out.print("DA");readParse.append("DA"); ParseSen.append("0.3,");}
-					if (vod6Set.contains(stringList[i])) {	System.out.print("DA");readParse.append("DA"); ParseSen.append("-0.5,");}
+					if (negVodSet.contains(stringList[i])){ 
+						//System.out.print("NA");
+						readParse.append("NA"); ParseSen.append("-0.8,"); }	
+					if (vod1Set.contains(stringList[i])) {	
+						//System.out.print("DA");
+						readParse.append("DA"); ParseSen.append("0.9,"); }
+					if (vod2Set.contains(stringList[i])) {  
+						//System.out.print("DA");
+						readParse.append("DA"); ParseSen.append("0.9,");	}	
+					if (vod3Set.contains(stringList[i])) {	
+						//System.out.print("DA");
+						readParse.append("DA"); ParseSen.append("0.7,");}
+					if (vod4Set.contains(stringList[i])) {	
+						//System.out.print("DA");
+						readParse.append("DA"); ParseSen.append("0.5,");}
+					if (vod5Set.contains(stringList[i])) {	
+						//System.out.print("DA");
+						readParse.append("DA"); ParseSen.append("0.3,");}
+					if (vod6Set.contains(stringList[i])) {	
+						//System.out.print("DA");
+						readParse.append("DA"); ParseSen.append("-0.5,");}
 					if (posWordSet.contains(stringList[i])) { 
-						System.out.print("PW");
+						//System.out.print("PW");
 						readParse.append("PW>"); ParseSen.append("0.8>");
 						}
 					if (negWordSet.contains(stringList[i])) {
-						System.out.print("PW");
+						//System.out.print("PW");
 						readParse.append("PW>"); ParseSen.append("-0.8>");
 						}
 		
 				}
 			}
-			System.out.print("\r\n");
-			System.out.println(readParse.toString()+" "+ParseSen.toString());
+//			System.out.print("\r\n");
+//			System.out.println(readParse.toString()+" "+ParseSen.toString());
 			
-			//ÅÐ¶Ï±êÇ©
+			//ï¿½Ð¶Ï±ï¿½Ç©
 
 			computeSen(readParse.toString(),ParseSen.toString(),senPath);
 			
@@ -104,19 +98,18 @@ public class sentiment {
 		
 	}
 	
-	//¹¹½¨´Êµä
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½
 	public void dic() throws IOException{
-	
 		
-		BufferedReader posWord = new BufferedReader(new FileReader(new File("./DATA/¹¹½¨´Êµä/ÕýÃæ´Ê/ÕýÃæ´Ê£¨0.8£©.txt")));
-		BufferedReader negWord = new BufferedReader(new FileReader(new File("./DATA/¹¹½¨´Êµä/¸ºÃæ´Ê/¸ºÃæ´Ê£¨-0.8£©.txt")));
-		BufferedReader negVod = new BufferedReader(new FileReader(new File("./DATA/¹¹½¨´Êµä/·ñ¶¨¸±´Ê/·ñ¶¨£¨-0.8£©.txt")));
-		BufferedReader vod1 = new BufferedReader(new FileReader(new File("./DATA/¹¹½¨´Êµä/³Ì¶È´ÊÓï/×î£¨0.9£©.txt")));
-		BufferedReader vod2 = new BufferedReader(new FileReader(new File("./DATA/¹¹½¨´Êµä/³Ì¶È´ÊÓï/³¬£¨0.9£©.txt")));
-		BufferedReader vod3 = new BufferedReader(new FileReader(new File("./DATA/¹¹½¨´Êµä/³Ì¶È´ÊÓï/ºÜ£¨0.7£©.txt")));
-		BufferedReader vod4 = new BufferedReader(new FileReader(new File("./DATA/¹¹½¨´Êµä/³Ì¶È´ÊÓï/½Ï£¨0.5£©.txt")));
-		BufferedReader vod5 = new BufferedReader(new FileReader(new File("./DATA/¹¹½¨´Êµä/³Ì¶È´ÊÓï/ÉÔ£¨0.3£©.txt")));	
-		BufferedReader vod6 = new BufferedReader(new FileReader(new File("./DATA/¹¹½¨´Êµä/³Ì¶È´ÊÓï/Ç·£¨-0.5£©.txt")));
+		BufferedReader posWord = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("Dic/POS/0.8.txt"),"gb2312"));
+		BufferedReader negWord = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("Dic/NEG/-0.8.txt"),"gb2312"));
+		BufferedReader negVod = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("Dic/NA/-0.8.txt"),"gb2312"));
+		BufferedReader vod1 = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("Dic/DA/10.9.txt"),"gb2312"));
+		BufferedReader vod2 = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("Dic/DA/20.9.txt"),"gb2312"));
+		BufferedReader vod3 = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("Dic/DA/0.7.txt"),"gb2312"));
+		BufferedReader vod4 = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("Dic/DA/0.5.txt"),"gb2312"));
+		BufferedReader vod5 = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("Dic/DA/0.3.txt"),"gb2312"));	
+		BufferedReader vod6 = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("Dic/DA/-0.5.txt"),"gb2312"));
 
 		
 		
@@ -178,7 +171,7 @@ public class sentiment {
 		fwriter.flush();
 		fwriter.close();
 		} catch (Exception e) {
-			System.out.print("Çé¸Ð½á¹ûÔÚ±£´æÊý¾ÝÊ±ºò³öÏÖIO´íÎó£º");
+			System.out.print("ï¿½ï¿½Ð½ï¿½ï¿½ï¿½Ú±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½IOï¿½ï¿½ï¿½ï¿½");
 			e.printStackTrace();
 		}
 		
@@ -189,7 +182,7 @@ public class sentiment {
 		File preFile = new File(pre);
 		File resultFile = new File(result);
 		if (!preFile.exists()||!resultFile.exists()) {
-			throw new IllegalArgumentException("´ý²âÊÔ×¼È·ÂÊµÄÎÄ¼þ²»´æÔÚ£¡"); 
+			throw new IllegalArgumentException("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×¼È·ï¿½Êµï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú£ï¿½"); 
 		}
 		BufferedReader preBf = new BufferedReader(new InputStreamReader(new FileInputStream(preFile), "gb2312"));
 		BufferedReader resultBf = new BufferedReader(new InputStreamReader(new FileInputStream(resultFile), "gb2312"));
@@ -209,11 +202,11 @@ public class sentiment {
 		}
 		preBf.close();resultBf.close();
 		
-		System.out.println("×¼È·ÂÊÊÇ£º"+a/b);
+		System.out.println("×¼È·ï¿½ï¿½ï¿½Ç£ï¿½"+a/b);
 	
 	}
 	
-	//¼ÆËã¼«ÐÔ¶ÌÓïµÄÇ¿¶È
+	//ï¿½ï¿½ï¿½ã¼«ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½Ç¿ï¿½ï¿½
 	public double computeSen(String doc,String value,String senPath){
 		String regx1 = "<(.+?)>";
 		Pattern p = Pattern.compile(regx1);
@@ -234,11 +227,12 @@ public class sentiment {
 		Iterator<String> valueiter = valuelist.iterator();
 		while(dociter.hasNext()){
 			String juzi = null;
-			System.out.print( juzi = dociter.next());
+			juzi = dociter.next();
+//			System.out.print(juzi = dociter.next());
 			String[] cpvalue =  valueiter.next().split(",");
-			for (int i = 0; i < cpvalue.length; i++) {
-				System.out.print(" "+cpvalue[i]+" ");
-			}
+//			for (int i = 0; i < cpvalue.length; i++) {
+//				System.out.print(" "+cpvalue[i]+" ");
+//			}
 			
 			
 			if (juzi.equals("PW")) { tolSens = Float.parseFloat(cpvalue[0]); }
@@ -270,8 +264,8 @@ public class sentiment {
 						(-1-Float.parseFloat(cpvalue[2]))*Float.parseFloat(cpvalue[1])*Float.parseFloat(cpvalue[1]);
 			}
 			
-			System.out.print("("+tolSens+")");
-			//°Ñ×ÜµÄ¶ÌÓï¼«ÐÔÏà¼Ó£¬µÃµ½Ò»¸ö¾ä×Ó×ÜµÄÇ¿¶È
+//			System.out.print("("+tolSens+")");
+			//ï¿½ï¿½ï¿½ÜµÄ¶ï¿½ï¿½ï¼«ï¿½ï¿½ï¿½ï¿½Ó£ï¿½ï¿½Ãµï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Üµï¿½Ç¿ï¿½ï¿½
 			docSens = tolSens+docSens;
 		}
 		
@@ -279,14 +273,14 @@ public class sentiment {
 		sensTxt = new StringBuffer();
 		if (docSens>0) {
 			sensTxt.append("pos"+"\r\n");
-			System.out.println("×ÜÇé¸Ð¼«ÖµÊÇ£º"+docSens+" ÅÐ¶ÏÎª£ºpos ");
+//			System.out.println("ï¿½ï¿½ï¿½ï¿½Ð¼ï¿½Öµï¿½Ç£ï¿½"+docSens+" ï¿½Ð¶ï¿½Îªï¿½ï¿½pos ");
 			
 		}else if (docSens<0) {
 			sensTxt.append("neg"+"\r\n");
-			System.out.println("×ÜÇé¸Ð¼«ÖµÊÇ£º"+docSens+" ÅÐ¶ÏÎª£ºneg ");
+//			System.out.println("ï¿½ï¿½ï¿½ï¿½Ð¼ï¿½Öµï¿½Ç£ï¿½"+docSens+" ï¿½Ð¶ï¿½Îªï¿½ï¿½neg ");
 		}else{
 			sensTxt.append("neutral"+"\r\n");
-			System.out.println("×ÜÇé¸Ð¼«ÖµÊÇ£º"+docSens+" ÅÐ¶ÏÎª£ºneutral ");
+//			System.out.println("ï¿½ï¿½ï¿½ï¿½Ð¼ï¿½Öµï¿½Ç£ï¿½"+docSens+" ï¿½Ð¶ï¿½Îªï¿½ï¿½neutral ");
 		}
 		saveSens(senPath,sensTxt.toString());
 		

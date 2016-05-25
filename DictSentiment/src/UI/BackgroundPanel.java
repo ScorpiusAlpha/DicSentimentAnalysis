@@ -16,6 +16,7 @@ class BackgroundPanel extends JPanel{
 		this.setOpaque(true);
 	}
 	//Draw the back ground.
+	@Override
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponents(g);
