@@ -14,4 +14,4 @@
 
 ##4.示例
 
-![](https://github.com/acrafter/DicSentimentAnalysis/DictSentiment/src/UI/robotImage.jpg)
+![](https://github.com/acrafter/DicSentimentAnalysis/blob/master/DictSentiment/src/UI/robotImage.jpg?raw=true)
