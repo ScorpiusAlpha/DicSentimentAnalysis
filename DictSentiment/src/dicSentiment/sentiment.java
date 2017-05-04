@@ -17,8 +17,8 @@ import java.util.regex.Pattern;
 public class sentiment {
 	Set<String> posWordSet,negWordSet,negVodSet,vod1Set,vod2Set,vod3Set,vod4Set,vod5Set,vod6Set;
 	StringBuffer sensTxt;
-	float tolSens = 0;//�������Զ����ǿ��
-	float docSens = 0;//����ƽ����ǿ��,
+	float tolSens = 0;//句子情感值
+	float docSens = 0;//文档情感值
 	
 	
 	public void readDoc(String path,String senPath) throws IOException{
@@ -39,8 +39,6 @@ public class sentiment {
 		    
 			stringList = sigleDoc.split(" ");
 			for (int i = 0; i < stringList.length; i++) {
-				
-//				System.out.print(stringList[i]+" ");
 				
 				if(posWordSet.contains(stringList[i])||negWordSet.contains(stringList[i])||negVodSet.contains(stringList[i])
 						||vod1Set.contains(stringList[i])||vod2Set.contains(stringList[i])||vod3Set.contains(stringList[i])
@@ -85,10 +83,6 @@ public class sentiment {
 		
 				}
 			}
-//			System.out.print("\r\n");
-//			System.out.println(readParse.toString()+" "+ParseSen.toString());
-			
-			//�жϱ�ǩ
 
 			computeSen(readParse.toString(),ParseSen.toString(),senPath);
 			
@@ -98,7 +92,7 @@ public class sentiment {
 		
 	}
 	
-	//�����ʵ�
+	//读取关键词文件
 	public void dic() throws IOException{
 		
 		BufferedReader posWord = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("Dic/POS/0.8.txt"),"gb2312"));
@@ -171,7 +165,7 @@ public class sentiment {
 		fwriter.flush();
 		fwriter.close();
 		} catch (Exception e) {
-			System.out.print("��н���ڱ�������ʱ�����IO����");
+			System.out.print("保存文件出错");
 			e.printStackTrace();
 		}
 		
@@ -182,7 +176,7 @@ public class sentiment {
 		File preFile = new File(pre);
 		File resultFile = new File(result);
 		if (!preFile.exists()||!resultFile.exists()) {
-			throw new IllegalArgumentException("������׼ȷ�ʵ��ļ������ڣ�"); 
+			throw new IllegalArgumentException("没有文件"); 
 		}
 		BufferedReader preBf = new BufferedReader(new InputStreamReader(new FileInputStream(preFile), "gb2312"));
 		BufferedReader resultBf = new BufferedReader(new InputStreamReader(new FileInputStream(resultFile), "gb2312"));
@@ -202,11 +196,11 @@ public class sentiment {
 		}
 		preBf.close();resultBf.close();
 		
-		System.out.println("׼ȷ���ǣ�"+a/b);
+		System.out.println("准确率为： "+a/b);
 	
 	}
 	
-	//���㼫�Զ����ǿ��
+	//计算文件每行句子的情感值
 	public double computeSen(String doc,String value,String senPath){
 		String regx1 = "<(.+?)>";
 		Pattern p = Pattern.compile(regx1);
@@ -264,8 +258,6 @@ public class sentiment {
 						(-1-Float.parseFloat(cpvalue[2]))*Float.parseFloat(cpvalue[1])*Float.parseFloat(cpvalue[1]);
 			}
 			
-//			System.out.print("("+tolSens+")");
-			//���ܵĶ��Ｋ����ӣ��õ�һ�������ܵ�ǿ��
 			docSens = tolSens+docSens;
 		}
 		
@@ -273,47 +265,16 @@ public class sentiment {
 		sensTxt = new StringBuffer();
 		if (docSens>0) {
 			sensTxt.append("pos"+"\r\n");
-//			System.out.println("����м�ֵ�ǣ�"+docSens+" �ж�Ϊ��pos ");
 			
 		}else if (docSens<0) {
 			sensTxt.append("neg"+"\r\n");
-//			System.out.println("����м�ֵ�ǣ�"+docSens+" �ж�Ϊ��neg ");
 		}else{
 			sensTxt.append("neutral"+"\r\n");
-//			System.out.println("����м�ֵ�ǣ�"+docSens+" �ж�Ϊ��neutral ");
 		}
 		saveSens(senPath,sensTxt.toString());
 		
 		tolSens = 0;
 		docSens = 0;
-		return tolSens;
-		
-
-		
-	}
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		return tolSens;	
+	}	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
